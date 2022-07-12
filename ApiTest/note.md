@@ -16,3 +16,11 @@
   -   请求体构造：form、json、xml、binary  
   -   响应结果分析：status code、response body 、json path、xpath
   
+- hamcrest断言体系  
+   -   支持pytest
+  
+- schema自动校验  
+   - 每次运行的时候自动保存当前的schema  
+  - 下次运行对比上次的schema，如果发现变更就报错  
+  - saveschema+diffschema
+  
