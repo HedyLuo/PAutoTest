@@ -22,5 +22,8 @@
 - schema自动校验  
    - 每次运行的时候自动保存当前的schema  
   - 下次运行对比上次的schema，如果发现变更就报错  
-  - saveschema+diffschema
+  - saveschema+diffschema  
   
+- http basic  
+  -   基本认证（basic access authentication）：允许http用户代理在请求时，提供用户和密码的一种方式![img.png](img.png)
+  -   在自动化中使用auth传递认证参数
