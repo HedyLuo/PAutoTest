@@ -36,8 +36,6 @@ class TestDemo:
         print(r.text)
         assert r.status_code == 200
 
-
-
     # 发送json格式请求
     def test_post_json(self):
         r = requests.post('https://httpbin.testing-studio.com/post', json=payload)
