@@ -8,11 +8,9 @@
 # coding = utf-8
 from time import sleep
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from h5uiauto.pom.basePage import BasePage
-from h5uiauto.pom.frame_pages.chrome_setting import ChromeSetting
-import options as options
+
+from UITest.pom.basePage import BasePage
 
 
 class LoginPage(BasePage):

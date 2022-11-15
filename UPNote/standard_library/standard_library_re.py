@@ -24,6 +24,21 @@
 
 import re
 
-p = re.compile('ca*t')
-print(p.match('caaaaat'))  # 输出<re.Match object; span=(0, 1), match='a'>
+# # match\group
+p = re.compile(r'(\d+)-(\d+)-(\d+)')
+# print(p.match('2019-03-10').groups())  # 输出<re.Match object; span=(0, 1), match='a'>
+# print(p.match('2019-03-10').group(1))  # 输出<re.Match object; span=(0, 1), match='a'>
+# print(r'/n/n')  # r 不转义
 
+# search 模糊匹配
+print(p.search('aa2018-03-10bb'))  # 输出 <re.Match object; span=(2, 12), match='2018-03-10'>
+
+# sub()替换函数
+phone = '188-7904-1234 # 这是电话号码'
+p2 = re.sub(r'#.*$', '', phone)  # 188-7904-1234
+p3 = re.sub(r'\D', '', p2)  # 18879041234
+print(p2)
+print(p3)
+
+# 匹配多次
+p4 = re.findall()

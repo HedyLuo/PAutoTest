@@ -125,6 +125,9 @@ class BasePage(object):
     def get_css(self, css, *loc):
         return self.find_element(*loc).value_of_css_property(css)
 
+    def get_attribute_rewrite(self, attribute, *loc):
+        return self.find_element(*loc).get_attribute(attribute)
+
     # 刷新页面
     def refresh(self):
         return self.driver.refresh()

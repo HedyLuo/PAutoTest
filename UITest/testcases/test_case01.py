@@ -6,29 +6,21 @@
 @Description:
 """
 from time import sleep
-
-import allure
-import options
 import pytest
 from selenium import webdriver
+import options
 from selenium.webdriver.common.by import By
-from h5uiauto.pom.fr_pages import CONST_FR as f
-from h5uiauto.pom import ChromeSetting, LoginPage, ParaPage
 
-# 填报界面 confirm弹窗第二行内容
-from h5uiauto.pom.photoCompare import ImageCompare
+from UITest.pom.basePage import BasePage
+from UITest.pom.chrome_setting import ChromeSetting
+from UITest.pom.login import LoginPage
 
-em4 = (By.XPATH, '//*[@id="app"]/div/div[2]/div/div/div/div[1]/div/div/div[2]')
-# 填报界面 confirm弹窗第一行内容
-em = (By.XPATH, '//*[@id="app"]/div/div[2]/div/div/div/div[1]/div/div/div[1]')
-
-# 表单界面，confirm弹窗第二行内容
-body_em0 = (By.XPATH, '//*[@id="app"]/div/div[2]/div/div/div/div[1]/div/div/div[2]')
-user_name = ['h51', 'h52', 'h53']
+card_info = [
+    ['a', 'b', 'c', 'e', 'e'],
+]
 
 
-@allure.feature("框架冒烟测试")
-class TestFrame(object):
+class TestCard(object):
 
     def setup_method(self):
         cs = ChromeSetting()
@@ -38,41 +30,14 @@ class TestFrame(object):
     def teardown_method(self):
         self.driver.quit()
 
-    @allure.testcase(''.join([f.url_mtt, '4391']))
-    @pytest.mark.parametrize('user', user_name)
-    def test_mtt4391(self, user):
+    @pytest.mark.parametrize("a,b,c,d,e", card_info)
+    def test_cardVersion(self, a, b, c, d, e):
         lp = LoginPage(self.driver)
-        pb = ParaPage(self.driver)
-        lp.go_to_url(f.fr_url)
-        lp.login(user, f.password)
-        sleep(2)
-        moban = By.XPATH, "//*[text()='Msg']"
-        assert pb.find_element(*moban)
-        pb.click_js(*moban)
-        sleep(1)
-
-    @allure.testcase(''.join([f.url_mtt, '4330']))
-    @allure.testcase(''.join([f.url_mtt, '4622']))
-    @allure.description('截图对比目录页的九宫格样式')
-    def test_mtt4330_4662(self):
-        lp = LoginPage(self.driver)
-        pb = ParaPage(self.driver)
-        lp.go_to_url(f.fr_url)
-        lp.login(f.password, f.password)
-        sleep(5)
-        pb.get_photo_as_file("../../picture/pic_compare/test1.png")
-        sleep(2)
-        pc = ImageCompare()
-        com = pc.calc_similar_by_path('../../picture/pic_compare/test1.png', '../../picture/pic_correct/test.png')*100
-        print('图片对比相似度' + str(com) + "%")
-        assert com > 97, '九宫格目录样式失效！'
-
-    @allure.testcase(''.join([f.url_mtt, '5557']))
-    def test_mtt5557(self):
-        lp = LoginPage(self.driver)
-        pb = ParaPage(self.driver)
-        lp.go_to_url(f.fr_url)
-        lp.login('123', f.password)
-        sleep(1)
-        assert lp.find_element(By.XPATH, "//*[text()='用户名和密码不匹配']")
-        pb.confirm_button()
+        lp.go_to_url(b)
+        sleep(3)
+        bp = BasePage(self.driver)
+        card_ele = (c, d)
+        card_version = bp.find_element(*card_ele).get_attribute("data-version")
+        # card_version = bp.get_attribute_rewrite(*card_id, "data-version")
+        print(a+"的卡片版本是："+card_version)
+        assert card_version == e
