@@ -9,11 +9,16 @@
 类：BasePage（）
 作用：封装基本方法，元素查找
 """
+import time
 from time import sleep
 
+import allure
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+
+
 
 
 class BasePage(object):
@@ -117,6 +122,10 @@ class BasePage(object):
     def get_url(self):
         return self.driver.current_url
 
+    # 去某个页面地址
+    def go_url(self, url):
+        return self.driver.get(url)
+
     # 获取元素文本
     def get_text(self, *loc):
         return self.find_element(*loc).text
@@ -125,6 +134,7 @@ class BasePage(object):
     def get_css(self, css, *loc):
         return self.find_element(*loc).value_of_css_property(css)
 
+    # 获取元素属性值，如id、className、输入框文本值等
     def get_attribute_rewrite(self, attribute, *loc):
         return self.find_element(*loc).get_attribute(attribute)
 
@@ -157,14 +167,34 @@ class BasePage(object):
     def sleep(seconds):
         sleep(seconds)
 
+    # 截图当前屏幕作为文件保存
     def get_photo_as_file(self, path):
+        # 指定路径
+        # timestamp = int(time.time())
+        # image_path = f"../picture/p_{timestamp}.PNG"
         self.driver.get_screenshot_as_file(path)
 
-    # # cookie操作
-    # # 获取cookie
-    # def get_cookie(self):
-    #     return self.driver.get_cookie()
-    #
+    # 优化：获取截图并存储在指定路径
+    def get_photo_plus_path(self):
+        timestamp = int(time.time())
+        image_path = f"../picture/p_{timestamp}.PNG"
+        self.driver.save_screenshot(image_path)
+        # 附属在allure-report中，图片名叫 picture，展示在执行步骤的Test body中
+        allure.attach.file(image_path, name="picture", attachment_type=allure.attachment_type.PNG)
+
+    # cookie操作
+    # 获取cookie
+    # todo get_cookie 与 get_cookies区别
+    def get_cookies(self):
+        return self.driver.get_cookies()
+
+    #获取指定cookie名
+    def get_one_cookie(self, name):
+        return self.driver.get_cookie(name)
+    # 向cookie添加会话
+    def add_cookie(self, cookie_dict):
+        self.driver.add_cookie(cookie_dict)
+
     # # 删除指定cookie
     # def delete_cookie(self):
     #     self.driver.delete_cookie()
@@ -173,8 +203,5 @@ class BasePage(object):
     # def dele_allCookie(self):
     #     self.driver.delete_all_cookie()
     #
-    # # 向cookie添加会话
-    # def add_cookie(self, cookie_dict):
-    #     self.driver.add_cookie(cookie_dict)
 
 
